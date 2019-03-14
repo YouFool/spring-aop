@@ -10,10 +10,9 @@ public class MyDemoLoggingAspect {
 
 	// here we add all services related to logging
 
-	// before the addAcount method
-	@Before("execution(public void addAccount())")
+	@Before("execution(* com.luv2code.aopdemo.dao.*.*(..))")
 	public void beforeAddAcountAdvice() {
-		System.out.println("\n=====>>> Executing @Before advice on addAcount()");
+		System.out.println("\n=====>>> Executing @Before advice on method");
 	}
 
 }
