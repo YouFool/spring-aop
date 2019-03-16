@@ -1,6 +1,9 @@
 package com.luv2code.aopdemo.aspect;
 
+import java.util.List;
+
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -13,6 +16,21 @@ import com.luv2code.aopdemo.Account;
 @Component
 @Order(2)
 public class MyDemoLoggingAspect {
+
+	@AfterReturning(pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts())", returning = "result")
+	public void afterReturningFindAccountsAdvice(JoinPoint joinPoint, List<Account> result) {
+		
+		// print out method wich we are advising on
+		System.out.println("\n====>>> Executing @AfterReturning on method: " + joinPoint.getSignature().toLongString());
+		
+		// print out the results
+		System.out.println("\n====>>> result is: " + result);
+		
+		// post-process the data
+		
+		// convert the acount names to uppercase
+		result.stream().forEach(account -> account.setName(account.getName().toUpperCase()));
+	}
 
 	@Before("com.luv2code.aopdemo.aspect.AopExpressions.forDaoPackageNoGetterSetter()")
 	public void beforeAddAcountAdvice(JoinPoint joinpoint) {
