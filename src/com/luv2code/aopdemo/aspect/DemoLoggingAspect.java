@@ -15,7 +15,7 @@ import com.luv2code.aopdemo.Account;
 @Aspect
 @Component
 @Order(2)
-public class MyDemoLoggingAspect {
+public class DemoLoggingAspect {
 
 	@AfterReturning(pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts())", returning = "result")
 	public void afterReturningFindAccountsAdvice(JoinPoint joinPoint, List<Account> result) {
