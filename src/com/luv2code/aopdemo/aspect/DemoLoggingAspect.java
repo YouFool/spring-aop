@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -16,8 +17,14 @@ import com.luv2code.aopdemo.Account;
 @Component
 @Order(2)
 public class DemoLoggingAspect {
+	
+	@AfterThrowing(pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts(..))", throwing = "throwable")
+	public void afterThrowingFindAccountsAdvice(JoinPoint joinPoint, Throwable throwable) {
+		System.out.println("\n====>>> Executing @AfterThrowing on method: " + joinPoint.getSignature().toLongString());
+		System.out.println("\n====>>> The expection is: " + throwable);
+	}
 
-	@AfterReturning(pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts())", returning = "result")
+	@AfterReturning(pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts(..))", returning = "result")
 	public void afterReturningFindAccountsAdvice(JoinPoint joinPoint, List<Account> result) {
 		
 		// print out method wich we are advising on
